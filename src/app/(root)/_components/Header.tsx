@@ -92,9 +92,9 @@ async function Header() {
             </Link>
           )}
 
-          <SignedIn>
-            <RunButton />
-          </SignedIn>
+          {/* <SignedIn> */}
+          <RunButton />
+          {/* </SignedIn> */}
 
           <div className="pl-3 border-l border-gray-800">
             <HeaderProfileBtn />

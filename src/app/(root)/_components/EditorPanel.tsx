@@ -8,12 +8,13 @@ import { registerCompletion } from "monacopilot";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { RotateCcwIcon, ShareIcon, TypeIcon } from "lucide-react";
-import { useClerk } from "@clerk/nextjs";
+import { useClerk, useUser } from "@clerk/nextjs";
 import { EditorPanelSkeleton } from "./EditorPanelSkeleton";
 import useMounted from "../../../hooks/useMounted";
 import ShareSnippetDialog from "./ShareSnippetDialog";
 
 function EditorPanel() {
+  const { isSignedIn } = useUser();
   const clerk = useClerk();
   const [isShareDialogOpen, setIsShareDialogOpen] = useState(false);
   const { language, theme, fontSize, editor, setFontSize, setEditor } =
@@ -28,7 +29,7 @@ function EditorPanel() {
     const newCode = savedCode || LANGUAGE_CONFIG[language].defaultCode;
     if (editor) editor.setValue(newCode);
 
-    if (editor && monacoInstance) {
+    if (editor && monacoInstance && isSignedIn) {
       // Re-register the completion provider for the new language
       const completion = registerCompletion(monacoInstance, editor, {
         endpoint: process.env.NEXT_PUBLIC_AI_CODE_API || "",

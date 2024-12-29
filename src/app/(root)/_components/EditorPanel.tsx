@@ -7,7 +7,7 @@ import { Editor } from "@monaco-editor/react";
 import { registerCompletion } from "monacopilot";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { RotateCcwIcon, ShareIcon, TypeIcon } from "lucide-react";
+import { RotateCcwIcon, ShareIcon, TypeIcon, WandSparkles } from "lucide-react";
 import { useClerk, useUser } from "@clerk/nextjs";
 import { EditorPanelSkeleton } from "./EditorPanelSkeleton";
 import useMounted from "../../../hooks/useMounted";
@@ -20,7 +20,7 @@ function EditorPanel() {
   const { language, theme, fontSize, editor, setFontSize, setEditor } =
     useCodeEditorStore();
   const [monacoInstance, setMonaco] = useState<any>(null);
-  const [completionProvider, setCompletionProvider] = useState<any>(null); // State to store completion provider
+  const [completionProvider, setCompletionProvider] = useState<any>(null);
 
   const mounted = useMounted();
 
@@ -39,6 +39,7 @@ function EditorPanel() {
           trigger: "onDemand",
           maxContextLines: 80,
         });
+        // setCompletionInstance(completion);
 
         // Store the completion provider in state
         setCompletionProvider(completion);
@@ -103,6 +104,78 @@ function EditorPanel() {
     setMonaco(monacoInstance); // Store monaco instance
   };
 
+  // Handle AI Accept logic (insert AI code at cursor position)
+  const handleAiAccept = async () => {
+    const position = editor.getPosition();
+
+    // Get the model (text content) of the editor
+    const model = editor.getModel();
+    if (position && model) {
+      const lineNumber = position.lineNumber;
+      const column = position.column;
+      const totalLines = model.getLineCount();
+
+      // Get the text before the cursor
+      const textBeforeCursor = model.getValueInRange(
+        new monacoInstance.Range(1, 1, lineNumber, column)
+      );
+
+      // Get the text after the cursor (you can specify how many characters after you want to get)
+      const textAfterCursor = model.getValueInRange(
+        new monacoInstance.Range(lineNumber, column, totalLines, 1) // Adjust 50 to the length you want
+      );
+
+      try {
+        // Call the API endpoint to get AI-generated code
+        const response = await fetch(
+          process.env.NEXT_PUBLIC_AI_CODE_API || "",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              completionMetadata: {
+                language: language,
+                textBeforeCursor: textBeforeCursor,
+                textAfterCursor: textAfterCursor,
+                cursorPosition: { lineNumber, column },
+                editorState: { completionMode: "continue" },
+              },
+            }),
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch AI code");
+        }
+
+        const data = await response.json();
+        const formattedCode = data.completion.trim().replace(/^```|```$/g, "");
+        const generatedCode = formattedCode || "";
+
+        // Create a range for where to insert the AI code (at the cursor position)
+        const range = new monacoInstance.Range(
+          lineNumber,
+          column,
+          lineNumber,
+          column
+        );
+
+        // Apply the AI-generated code at the cursor position
+        const editOperation = {
+          range: range,
+          text: generatedCode,
+        };
+
+        // Execute the editor operation to insert AI-generated code
+        model.pushEditOperations([], [editOperation], () => null);
+      } catch (error) {
+        console.error("Error fetching AI code:", error);
+      }
+    }
+  };
+
   if (!mounted) return null;
 
   return (
@@ -157,6 +230,19 @@ function EditorPanel() {
             >
               <RotateCcwIcon className="size-4 text-gray-400" />
             </motion.button>
+
+            {/* ai accept Button */}
+            {isSignedIn && (
+              <motion.button
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={handleAiAccept}
+                className="block sm:hidden p-2 bg-[#1e1e2e] hover:bg-[#2a2a3a] rounded-lg ring-1 ring-white/5 transition-colors"
+                aria-label="Accept AI Code"
+              >
+                <WandSparkles className="size-4 text-gray-400" />
+              </motion.button>
+            )}
 
             {/* Share Button */}
             <motion.button

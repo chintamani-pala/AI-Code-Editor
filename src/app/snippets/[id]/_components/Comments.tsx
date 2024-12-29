@@ -3,10 +3,10 @@ import { Id } from "../../../../../convex/_generated/dataModel";
 import { useState } from "react";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "../../../../../convex/_generated/api";
-import toast from "react-hot-toast";
 import { MessageSquare } from "lucide-react";
 import Comment from "./Comment";
 import CommentForm from "./CommentForm";
+import CustomAlert from "@/app/(root)/_constants/CustomeAlert";
 
 function Comments({ snippetId }: { snippetId: Id<"snippets"> }) {
   const { user } = useUser();
@@ -26,7 +26,7 @@ function Comments({ snippetId }: { snippetId: Id<"snippets"> }) {
       await addComment({ snippetId, content });
     } catch (error) {
       console.log("Error adding comment:", error);
-      toast.error("Something went wrong");
+      CustomAlert("error", "Something went wrong");
     } finally {
       setIsSubmitting(false);
     }
@@ -39,7 +39,7 @@ function Comments({ snippetId }: { snippetId: Id<"snippets"> }) {
       await deleteComment({ commentId });
     } catch (error) {
       console.log("Error deleting comment:", error);
-      toast.error("Something went wrong");
+      CustomAlert("error", "Something went wrong");
     } finally {
       setDeletingCommentId(null);
     }

@@ -9,8 +9,8 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { Clock, Trash2, User } from "lucide-react";
 import Image from "next/image";
-import toast from "react-hot-toast";
 import StarButton from "../../../components/StarButton";
+import CustomAlert from "@/app/(root)/_constants/CustomeAlert";
 
 function SnippetCard({ snippet }: { snippet: Snippet }) {
   const { user } = useUser();
@@ -22,9 +22,10 @@ function SnippetCard({ snippet }: { snippet: Snippet }) {
 
     try {
       await deleteSnippet({ snippetId: snippet._id });
+      CustomAlert("success", "Snippet deleted successfully");
     } catch (error) {
       console.log("Error deleting snippet:", error);
-      toast.error("Error deleting snippet");
+      CustomAlert("error", "Error deleting snippet");
     } finally {
       setIsDeleting(false);
     }

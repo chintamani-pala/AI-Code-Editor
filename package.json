@@ -22,6 +22,7 @@
     "react-hot-toast": "^2.4.1",
     "react-syntax-highlighter": "^15.6.1",
     "svix": "^1.44.0",
+    "sweetalert2": "^11.15.3",
     "zustand": "^5.0.2"
   },
   "devDependencies": {

@@ -20,6 +20,7 @@ function EditorPanel() {
   const { language, theme, fontSize, editor, setFontSize, setEditor } =
     useCodeEditorStore();
   const [monacoInstance, setMonaco] = useState<any>(null);
+  const [completionProvider, setCompletionProvider] = useState<any>(null); // State to store completion provider
 
   const mounted = useMounted();
 
@@ -29,31 +30,44 @@ function EditorPanel() {
     const newCode = savedCode || LANGUAGE_CONFIG[language].defaultCode;
     if (editor) editor.setValue(newCode);
 
-    if (editor && monacoInstance && isSignedIn) {
-      // Re-register the completion provider for the new language
-      const completion = registerCompletion(monacoInstance, editor, {
-        endpoint: process.env.NEXT_PUBLIC_AI_CODE_API || "",
-        language: LANGUAGE_CONFIG[language]?.monacoLanguage || "javascript",
-        trigger: "onDemand",
-        maxContextLines: 80,
-      });
+    if (editor && monacoInstance) {
+      if (isSignedIn && !completionProvider) {
+        // Initialize the completion provider only if the user is signed in and it hasn't been initialized yet
+        const completion = registerCompletion(monacoInstance, editor, {
+          endpoint: process.env.NEXT_PUBLIC_AI_CODE_API || "",
+          language: LANGUAGE_CONFIG[language]?.monacoLanguage || "javascript",
+          trigger: "onDemand",
+          maxContextLines: 80,
+        });
 
-      // Bind Ctrl+Space to trigger on-demand completion
-      monacoInstance.editor.addEditorAction({
-        id: "monacopilot.triggerCompletion",
-        label: "Complete Code",
-        contextMenuGroupId: "navigation",
-        keybindings: [
-          monacoInstance.KeyMod.CtrlCmd |
-            monacoInstance.KeyMod.Shift |
-            monacoInstance.KeyCode.Space,
-        ],
-        run: () => {
-          completion.trigger();
-        },
-      });
+        // Store the completion provider in state
+        setCompletionProvider(completion);
+
+        // Bind Ctrl+Space to trigger on-demand completion
+        monacoInstance.editor.addEditorAction({
+          id: "monacopilot.triggerCompletion",
+          label: "Complete Code",
+          contextMenuGroupId: "navigation",
+          keybindings: [
+            monacoInstance.KeyMod.CtrlCmd |
+              monacoInstance.KeyMod.Shift |
+              monacoInstance.KeyCode.Space,
+          ],
+          run: () => {
+            completion.trigger();
+          },
+        });
+      } else if (!isSignedIn && completionProvider) {
+        // Cleanup the completion provider if the user logs out
+        if (typeof completionProvider.unregister === "function") {
+          completionProvider.unregister();
+        }
+
+        // Reset the completionProvider to null
+        setCompletionProvider(null);
+      }
     }
-  }, [language, editor, monacoInstance]);
+  }, [isSignedIn, editor, monacoInstance, language, completionProvider]);
 
   // Load saved font size
   useEffect(() => {

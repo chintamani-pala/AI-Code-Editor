@@ -32,6 +32,7 @@ function SaveFileDialog({ onClose }) {
       a.click(); // Trigger the download
       document.body.removeChild(a); // Clean up the DOM
       URL.revokeObjectURL(url); // Release memory
+      onClose();
       CustomAlert("success", "File saved successfully");
     } catch (error) {
       console.log("Error saving file:", error);

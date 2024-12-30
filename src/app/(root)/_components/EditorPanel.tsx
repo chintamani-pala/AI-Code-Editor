@@ -27,7 +27,7 @@ function EditorPanel() {
   const mounted = useMounted();
 
   useEffect(() => {
-    if (editor) {
+    if (editor && monacoInstance) {
       monacoInstance.editor.addEditorAction({
         id: "Clear-editor-code",
         label: "Clear Code",

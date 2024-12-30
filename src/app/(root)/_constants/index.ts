@@ -355,3 +355,25 @@ export const defineMonacoThemes = (monaco: Monaco) => {
     });
   });
 };
+
+export const LANGUAGE_EXTENSIONS_MAPPING = {
+  javascript: "js",
+  typescript: "ts",
+  java: "java",
+  python: "py",
+  php: "php",
+  sqlite3: "sqlite3",
+  brainfuck: "bf",
+  kotlin: "kt",
+  rust: "rs",
+  c: "c",
+  "c++": "cpp",
+  csharp: "cs",
+  dart: "dart",
+  go: "go",
+  lua: "lua",
+  perl: "pl",
+  powershell: "ps1",
+  ruby: "rb",
+  swift: "swift",
+};

@@ -31,7 +31,6 @@ function LanguageSelector({ hasAccess }: { hasAccess: boolean }) {
 
   const handleLanguageSelect = (isProReq: boolean, langId: string) => {
     if (!hasAccess && isProReq == true) return;
-
     setLanguage(langId);
     setIsOpen(false);
   };

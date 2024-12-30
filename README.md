@@ -1,36 +1,96 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# AI Code Editor
 
-## Getting Started
+An intelligent coding platform designed to streamline development and enhance productivity. Equipped with advanced AI features, the AI Code Editor is perfect for developers of all levels.
 
-First, run the development server:
+## Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### AI-Powered Assistance
+- **Real-Time Code Suggestions**: Get instant recommendations while coding.
+- **Error Detection and Debugging**: Identify and fix issues with ease.
+- **Auto-Completion**: Speed up coding with intelligent auto-complete suggestions.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Additional Features
+- **Share Code Snippets**: Easily share reusable snippets with your team.
+- **Custom Themes**: Personalize your coding environment with customizable themes.
+- **Code Execution**: Run your code directly within the editor.
+- **User Login**: Securely log in to save and manage your projects.
+- **Multiple Language Support**: Write and run code in various programming languages.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Responsive Design
+- Fully optimized for desktops, tablets, and mobile devices for coding anytime, anywhere.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Installation
 
-## Learn More
+### Prerequisites
+- Node.js installed on your system.
+- npm (Node Package Manager) installed.
 
-To learn more about Next.js, take a look at the following resources:
+### Steps
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/chintamani-pala/AI-Code-Editor.git
+   cd ai-code-editor
+   ```
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Setup Environment Variables
+   ```bash
+   NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY="clerk publishable key"
+   CLERK_SECRET_KEY="clerk secret"
+   CONVEX_DEPLOYMENT="convex credential"
+   NEXT_PUBLIC_CONVEX_URL="convex url"
+   NEXT_PUBLIC_AI_CODE_API = "Ai code api link"
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+4. Start the development server:
+   ```bash
+   npm start
+   ```
+4. Open your browser and navigate to:
+   ```
+   http://localhost:3000
+   ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## AI code Api repo:
+  - **Link**: [Get Repo](https://github.com/chintamani-pala/Ai-code-editor-backend.git)
 
-## Deploy on Vercel
+## Usage
+- **Start Coding**: Open the editor and select your preferred programming language.
+- **Utilize AI Features**: Let the AI assist you with code suggestions, error fixes, and more.
+- **Share Snippets**: Create and share reusable code snippets.
+- **Customize Themes**: Adjust the editor's appearance to your preference.
+- **Run Code**: Test and debug your code directly in the editor.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Contributing
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+We welcome contributions! Follow these steps:
+1. Fork the repository.
+2. Create a new branch for your feature or bug fix:
+   ```bash
+   git checkout -b feature-name
+   ```
+3. Commit your changes:
+   ```bash
+   git commit -m "Description of changes"
+   ```
+4. Push the branch:
+   ```bash
+   git push origin feature-name
+   ```
+5. Open a Pull Request.
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
+
+---
+
+### Future Enhancements
+- **Select AI Model**: Allow users to choose the AI model for code completion.
+- **Pro Plan**: Enable access to ChatGPT-4 for premium users.
+- **Light and Dark Modes**: Offer customizable light and dark theme options.
+- **File Upload**: Enable users to upload files directly to the editor.
+- **Save File**: Allow users to save their work within the editor.
+
+For any questions or feedback, feel free to open an issue or contact us at chintamanipala67@gmail.com.

@@ -2,33 +2,12 @@ import { useState } from "react";
 import { X } from "lucide-react";
 import { useCodeEditorStore } from "@/store/useCodeEditorStore";
 import CustomAlert from "../_constants/CustomeAlert";
-
-const allowedExtensions = [
-  "txt",
-  "js",
-  "ts",
-  "java",
-  "py",
-  "php",
-  "sqlite3",
-  "bf",
-  "kt",
-  "rs",
-  "c",
-  "cpp",
-  "cs",
-  "dart",
-  "go",
-  "lua",
-  "pl",
-  "ps1",
-  "ps2",
-  "rb",
-  "swift",
-];
+import { LANGUAGE_EXTENSIONS_MAPPING } from "../_constants";
 function UploadFileDialog({ onClose }: { onClose: () => void }) {
   const [fileName, setFileName] = useState("");
   const [isReading, setIsReading] = useState(false);
+  const allowedExtensions = Object.values(LANGUAGE_EXTENSIONS_MAPPING);
+  allowedExtensions.push("txt");
   const { editor } = useCodeEditorStore();
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]; // Use optional chaining for safety

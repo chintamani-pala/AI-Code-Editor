@@ -30,12 +30,12 @@ function UploadFileDialog({ onClose }: { onClose: () => void }) {
   const [fileName, setFileName] = useState("");
   const [isReading, setIsReading] = useState(false);
   const { editor } = useCodeEditorStore();
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]; // Use optional chaining for safety
+    if (!file) return; // Check if file is not present
 
-  const handleFileChange = (e: unknown) => {
-    const file = e.target.files[0];
-    if (!file) return;
-    const fileExtension = file.name.split(".").pop().toLowerCase();
-    if (!allowedExtensions.includes(fileExtension)) {
+    const fileExtension = file.name.split(".").pop()?.toLowerCase();
+    if (!fileExtension || !allowedExtensions.includes(fileExtension)) {
       CustomAlert("error", "This File Is Not Allowed");
       return;
     }
@@ -47,8 +47,10 @@ function UploadFileDialog({ onClose }: { onClose: () => void }) {
 
     // Read file content
     reader.onload = (event) => {
-      const fileContent = event?.target.result;
-      editor.setValue(fileContent); // Set the content to the editor
+      const fileContent = event?.target?.result;
+      if (fileContent) {
+        editor.setValue(fileContent.toString()); // Set the content to the editor
+      }
       setIsReading(false);
     };
 

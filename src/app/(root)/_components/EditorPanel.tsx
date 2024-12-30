@@ -13,9 +13,9 @@ import { EditorPanelSkeleton } from "./EditorPanelSkeleton";
 import useMounted from "../../../hooks/useMounted";
 import ShareSnippetDialog from "./ShareSnippetDialog";
 import OptionsEditor from "./OptionsEditor";
-// import RunButton from "./RunButton";
 
 function EditorPanel() {
+  const isMobile = window.matchMedia("(max-width: 600px)").matches;
   const { isSignedIn } = useUser();
   const clerk = useClerk();
   const [isShareDialogOpen, setIsShareDialogOpen] = useState(false);
@@ -51,7 +51,7 @@ function EditorPanel() {
     if (editor) editor.setValue(newCode);
 
     if (editor && monacoInstance) {
-      if (isSignedIn && !completionProvider) {
+      if (isSignedIn && !completionProvider && !isMobile) {
         // Initialize the completion provider only if the user is signed in and it hasn't been initialized yet
         const completion = registerCompletion(monacoInstance, editor, {
           endpoint: process.env.NEXT_PUBLIC_AI_CODE_API || "",

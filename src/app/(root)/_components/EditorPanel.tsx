@@ -194,9 +194,11 @@ function EditorPanel() {
               />
             </div>
             <div>
-              <h2 className="text-sm font-medium text-white">Code Editor</h2>
+              <h2 className="text-sm font-medium text-white">
+                {String(language[0]).toUpperCase() + String(language).slice(1)}
+              </h2>
               <p className="text-xs text-gray-500">
-                Write and execute your code
+                Version: {LANGUAGE_CONFIG[language].pistonRuntime.version}
               </p>
             </div>
           </div>

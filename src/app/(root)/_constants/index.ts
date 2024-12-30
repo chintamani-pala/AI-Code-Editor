@@ -4,6 +4,7 @@ import { Theme } from "../../../types";
 type LanguageConfig = Record<
   string,
   {
+    isProReq: boolean;
     id: string;
     label: string;
     logoPath: string;
@@ -15,10 +16,11 @@ type LanguageConfig = Record<
 
 export const LANGUAGE_CONFIG: LanguageConfig = {
   javascript: {
+    isProReq: false,
     id: "javascript",
     label: "JavaScript",
     logoPath: "/javascript.png",
-    pistonRuntime: { language: "javascript", version: "18.15.0" }, // api that we're gonna be using
+    pistonRuntime: { language: "javascript", version: "18.15.0" },
     monacoLanguage: "javascript",
     defaultCode: `// JavaScript Playground
 const numbers = [1, 2, 3, 4, 5];
@@ -37,302 +39,222 @@ const sum = numbers.reduce((acc, curr) => acc + curr, 0);
 console.log('Sum of numbers:', sum);`,
   },
   typescript: {
+    isProReq: false,
     id: "typescript",
     label: "TypeScript",
     logoPath: "/typescript.png",
     pistonRuntime: { language: "typescript", version: "5.0.3" },
     monacoLanguage: "typescript",
     defaultCode: `// TypeScript Playground
-interface NumberArray {
-  numbers: number[];
-  sum(): number;
-  squares(): number[];
-  evenNumbers(): number[];
-}
-
-class MathOperations implements NumberArray {
-  constructor(public numbers: number[]) {}
-
-  sum(): number {
-    return this.numbers.reduce((acc, curr) => acc + curr, 0);
-  }
-
-  squares(): number[] {
-    return this.numbers.map(n => n * n);
-  }
-
-  evenNumbers(): number[] {
-    return this.numbers.filter(n => n % 2 === 0);
-  }
-}
-
-const math = new MathOperations([1, 2, 3, 4, 5]);
-
-console.log('Original numbers:', math.numbers);
-console.log('Squared numbers:', math.squares());
-console.log('Even numbers:', math.evenNumbers());
-console.log('Sum of numbers:', math.sum());`,
+const message: string = "Hello, TypeScript!";
+console.log(message);`,
+  },
+  java: {
+    isProReq: false,
+    id: "java",
+    label: "Java",
+    logoPath: "/java.png",
+    pistonRuntime: { language: "java", version: "15.0.2" },
+    monacoLanguage: "java",
+    defaultCode: `// Java Playground
+public class Main {
+    public static void main(String[] args) {
+        System.out.println("Hello, Java!");
+    }
+}`,
   },
   python: {
+    isProReq: false,
     id: "python",
     label: "Python",
     logoPath: "/python.png",
     pistonRuntime: { language: "python", version: "3.10.0" },
     monacoLanguage: "python",
     defaultCode: `# Python Playground
-numbers = [1, 2, 3, 4, 5]
-
-# Map numbers to their squares
-squares = [n ** 2 for n in numbers]
-print(f"Original numbers: {numbers}")
-print(f"Squared numbers: {squares}")
-
-# Filter for even numbers
-even_numbers = [n for n in numbers if n % 2 == 0]
-print(f"Even numbers: {even_numbers}")
-
-# Calculate sum
-numbers_sum = sum(numbers)
-print(f"Sum of numbers: {numbers_sum}")`,
+print("Hello, Python!")`,
   },
-  java: {
-    id: "java",
-    label: "Java",
-    logoPath: "/java.png",
-    pistonRuntime: { language: "java", version: "15.0.2" },
-    monacoLanguage: "java",
-    defaultCode: `public class Main {
-  public static void main(String[] args) {
-      // Create array
-      int[] numbers = {1, 2, 3, 4, 5};
-      
-      // Print original numbers
-      System.out.print("Original numbers: ");
-      printArray(numbers);
-      
-      // Calculate and print squares
-      int[] squares = new int[numbers.length];
-      for (int i = 0; i < numbers.length; i++) {
-          squares[i] = numbers[i] * numbers[i];
-      }
-      System.out.print("Squared numbers: ");
-      printArray(squares);
-      
-      // Print even numbers
-      System.out.print("Even numbers: ");
-      for (int n : numbers) {
-          if (n % 2 == 0) System.out.print(n + " ");
-      }
-      System.out.println();
-      
-      // Calculate and print sum
-      int sum = 0;
-      for (int n : numbers) sum += n;
-      System.out.println("Sum of numbers: " + sum);
-  }
-  
-  private static void printArray(int[] arr) {
-      for (int n : arr) System.out.print(n + " ");
-      System.out.println();
-  }
-}`,
+  php: {
+    isProReq: false,
+    id: "php",
+    label: "PHP",
+    logoPath: "/php.png",
+    pistonRuntime: { language: "php", version: "8.2.3" },
+    monacoLanguage: "php",
+    defaultCode: `<?php
+// PHP Playground
+echo "Hello, PHP!";
+?>`,
   },
-  go: {
-    id: "go",
-    label: "Go",
-    logoPath: "/go.png",
-    pistonRuntime: { language: "go", version: "1.16.2" },
-    monacoLanguage: "go",
-    defaultCode: `package main
-
-import "fmt"
-
-func main() {
-  // Create slice
-  numbers := []int{1, 2, 3, 4, 5}
-  
-  // Print original numbers
-  fmt.Println("Original numbers:", numbers)
-  
-  // Calculate squares
-  squares := make([]int, len(numbers))
-  for i, n := range numbers {
-      squares[i] = n * n
-  }
-  fmt.Println("Squared numbers:", squares)
-  
-  // Filter even numbers
-  var evenNumbers []int
-  for _, n := range numbers {
-      if n%2 == 0 {
-          evenNumbers = append(evenNumbers, n)
-      }
-  }
-  fmt.Println("Even numbers:", evenNumbers)
-  
-  // Calculate sum
-  sum := 0
-  for _, n := range numbers {
-      sum += n
-  }
-  fmt.Println("Sum of numbers:", sum)
+  sqlite3: {
+    isProReq: false,
+    id: "sqlite3",
+    label: "SQLite3",
+    logoPath: "/sqlite3.png",
+    pistonRuntime: { language: "sqlite3", version: "3.36.0" },
+    monacoLanguage: "sql",
+    defaultCode: `-- SQLite3 Playground
+SELECT 'Hello, SQLite3!';`,
+  },
+  brainfuck: {
+    isProReq: false,
+    id: "brainfuck",
+    label: "Brainfuck",
+    logoPath: "/brainfuck.png",
+    pistonRuntime: { language: "brainfuck", version: "2.7.3" },
+    monacoLanguage: "brainfuck",
+    defaultCode: `// Brainfuck Playground
+++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>---.+++++++..+++.>>.>---.+++++.`,
+  },
+  kotlin: {
+    isProReq: true,
+    id: "kotlin",
+    label: "Kotlin",
+    logoPath: "/kotlin.png",
+    pistonRuntime: { language: "kotlin", version: "1.8.20" },
+    monacoLanguage: "kotlin",
+    defaultCode: `// Kotlin Playground
+fun main() {
+    println("Hello, Kotlin!")
 }`,
   },
   rust: {
+    isProReq: true,
     id: "rust",
     label: "Rust",
     logoPath: "/rust.png",
     pistonRuntime: { language: "rust", version: "1.68.2" },
     monacoLanguage: "rust",
-    defaultCode: `fn main() {
-    // Create vector
-    let numbers = vec![1, 2, 3, 4, 5];
-    
-    // Print original numbers
-    println!("Original numbers: {:?}", numbers);
-    
-    // Calculate squares
-    let squares: Vec<i32> = numbers
-        .iter()
-        .map(|&n| n * n)
-        .collect();
-    println!("Squared numbers: {:?}", squares);
-    
-    // Filter even numbers
-    let even_numbers: Vec<i32> = numbers
-        .iter()
-        .filter(|&&n| n % 2 == 0)
-        .cloned()
-        .collect();
-    println!("Even numbers: {:?}", even_numbers);
-    
-    // Calculate sum
-    let sum: i32 = numbers.iter().sum();
-    println!("Sum of numbers: {}", sum);
+    defaultCode: `// Rust Playground
+fn main() {
+    println!("Hello, Rust!");
 }`,
   },
-  cpp: {
-    id: "cpp",
-    label: "C++",
-    logoPath: "/cpp.png",
-    pistonRuntime: { language: "cpp", version: "10.2.0" },
-    monacoLanguage: "cpp",
-    defaultCode: `#include <iostream>
-#include <vector>
-#include <algorithm>
-#include <numeric>
-
+  c: {
+    isProReq: true,
+    id: "c",
+    label: "C",
+    logoPath: "/c.png",
+    pistonRuntime: { language: "c", version: "10.2.0" },
+    monacoLanguage: "c",
+    defaultCode: `// C Playground
+#include <stdio.h>
 int main() {
-    // Create vector
-    std::vector<int> numbers = {1, 2, 3, 4, 5};
-    
-    // Print original numbers
-    std::cout << "Original numbers: ";
-    for (int n : numbers) std::cout << n << " ";
-    std::cout << std::endl;
-    
-    // Calculate squares
-    std::vector<int> squares;
-    std::transform(numbers.begin(), numbers.end(), 
-                  std::back_inserter(squares),
-                  [](int n) { return n * n; });
-    
-    std::cout << "Squared numbers: ";
-    for (int n : squares) std::cout << n << " ";
-    std::cout << std::endl;
-    
-    // Filter even numbers
-    std::cout << "Even numbers: ";
-    for (int n : numbers) {
-        if (n % 2 == 0) std::cout << n << " ";
-    }
-    std::cout << std::endl;
-    
-    // Calculate sum
-    int sum = std::accumulate(numbers.begin(), numbers.end(), 0);
-    std::cout << "Sum of numbers: " << sum << std::endl;
-    
+    printf("Hello, C!");
     return 0;
 }`,
   },
+  "c++": {
+    isProReq: true,
+    id: "c++",
+    label: "C++",
+    logoPath: "/cpp.png",
+    pistonRuntime: { language: "c++", version: "10.2.0" },
+    monacoLanguage: "cpp",
+    defaultCode: `// C++ Playground
+#include <iostream>
+int main() {
+    std::cout << "Hello, C++!";
+    return 0;
+}`,
+  },
+
   csharp: {
+    isProReq: true,
     id: "csharp",
     label: "C#",
     logoPath: "/csharp.png",
     pistonRuntime: { language: "csharp", version: "6.12.0" },
     monacoLanguage: "csharp",
-    defaultCode: `using System;
-using System.Linq;
-
+    defaultCode: `// C# Playground
+using System;
 class Program {
     static void Main() {
-        // Create array
-        int[] numbers = { 1, 2, 3, 4, 5 };
-        
-        // Print original numbers
-        Console.WriteLine($"Original numbers: {string.Join(" ", numbers)}");
-        
-        // Calculate squares
-        var squares = numbers.Select(n => n * n);
-        Console.WriteLine($"Squared numbers: {string.Join(" ", squares)}");
-        
-        // Filter even numbers
-        var evenNumbers = numbers.Where(n => n % 2 == 0);
-        Console.WriteLine($"Even numbers: {string.Join(" ", evenNumbers)}");
-        
-        // Calculate sum
-        var sum = numbers.Sum();
-        Console.WriteLine($"Sum of numbers: {sum}");
+        Console.WriteLine("Hello, C#!");
     }
 }`,
   },
+  dart: {
+    isProReq: true,
+    id: "dart",
+    label: "Dart",
+    logoPath: "/dart.png",
+    pistonRuntime: { language: "dart", version: "2.19.6" },
+    monacoLanguage: "dart",
+    defaultCode: `// Dart Playground
+void main() {
+  print('Hello, Dart!');
+}`,
+  },
+
+  go: {
+    isProReq: true,
+    id: "go",
+    label: "Go",
+    logoPath: "/go.png",
+    pistonRuntime: { language: "go", version: "1.16.2" },
+    monacoLanguage: "go",
+    defaultCode: `// Go Playground
+package main
+import "fmt"
+func main() {
+    fmt.Println("Hello, Go!")
+}`,
+  },
+
+  lua: {
+    isProReq: true,
+    id: "lua",
+    label: "Lua",
+    logoPath: "/lua.png",
+    pistonRuntime: { language: "lua", version: "5.4.4" },
+    monacoLanguage: "lua",
+    defaultCode: `-- Lua Playground
+print("Hello, Lua!")`,
+  },
+
+  perl: {
+    isProReq: true,
+    id: "perl",
+    label: "Perl",
+    logoPath: "/perl.png",
+    pistonRuntime: { language: "perl", version: "5.36.0" },
+    monacoLanguage: "perl",
+    defaultCode: `# Perl Playground
+print "Hello, Perl!\n";`,
+  },
+
+  powershell: {
+    isProReq: true,
+    id: "powershell",
+    label: "PowerShell",
+    logoPath: "/powershell.png",
+    pistonRuntime: { language: "powershell", version: "7.1.4" },
+    monacoLanguage: "powershell",
+    defaultCode: `# PowerShell Playground
+Write-Host "Hello, PowerShell!"`,
+  },
+
   ruby: {
+    isProReq: true,
     id: "ruby",
     label: "Ruby",
     logoPath: "/ruby.png",
     pistonRuntime: { language: "ruby", version: "3.0.1" },
     monacoLanguage: "ruby",
-    defaultCode: `# Create array
-numbers = [1, 2, 3, 4, 5]
-
-# Print original numbers
-puts "Original numbers: #{numbers.join(' ')}"
-
-# Calculate squares
-squares = numbers.map { |n| n * n }
-puts "Squared numbers: #{squares.join(' ')}"
-
-# Filter even numbers
-even_numbers = numbers.select { |n| n.even? }
-puts "Even numbers: #{even_numbers.join(' ')}"
-
-# Calculate sum
-sum = numbers.sum
-puts "Sum of numbers: #{sum}"`,
+    defaultCode: `# Ruby Playground
+puts "Hello, Ruby!"`,
   },
+
   swift: {
+    isProReq: true,
     id: "swift",
     label: "Swift",
     logoPath: "/swift.png",
     pistonRuntime: { language: "swift", version: "5.3.3" },
     monacoLanguage: "swift",
-    defaultCode: `// Create array
-let numbers = [1, 2, 3, 4, 5]
-
-// Print original numbers
-print("Original numbers: \\(numbers)")
-
-// Calculate squares
-let squares = numbers.map { $0 * $0 }
-print("Squared numbers: \\(squares)")
-
-// Filter even numbers
-let evenNumbers = numbers.filter { $0 % 2 == 0 }
-print("Even numbers: \\(evenNumbers)")
-
-// Calculate sum
-let sum = numbers.reduce(0, +)
-print("Sum of numbers: \\(sum)")`,
+    defaultCode: `// Swift Playground
+import Swift
+print("Hello, Swift!")`,
   },
 };
 

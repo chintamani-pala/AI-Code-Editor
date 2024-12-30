@@ -15,7 +15,7 @@ import ShareSnippetDialog from "./ShareSnippetDialog";
 import OptionsEditor from "./OptionsEditor";
 
 function EditorPanel() {
-  const isMobile = window.matchMedia("(max-width: 600px)").matches;
+  const [isMobile, setIsMobile] = useState(false);
   const { isSignedIn } = useUser();
   const clerk = useClerk();
   const [isShareDialogOpen, setIsShareDialogOpen] = useState(false);
@@ -25,6 +25,13 @@ function EditorPanel() {
   const [completionProvider, setCompletionProvider] = useState<any>(null);
 
   const mounted = useMounted();
+  useEffect(() => {
+    const checkMobile = () =>
+      setIsMobile(window.matchMedia("(max-width: 600px)").matches);
+    checkMobile(); // Initial check
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   useEffect(() => {
     if (editor && monacoInstance) {

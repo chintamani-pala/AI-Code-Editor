@@ -1,4 +1,4 @@
-# RunCompiler An Ai Code Compiler
+![Typing SVG](https://readme-typing-svg.herokuapp.com/?lines=𝑹𝒖𝒏𝑪𝒐𝒎𝒑𝒊𝒍𝒆𝒓+𝑨𝒏+𝑨𝒊+𝑪𝒐𝒅𝒆+𝑪𝒐𝒎𝒑𝒊𝒍𝒆𝒓!)</p>
 
 An intelligent coding platform designed to streamline development and enhance productivity. Equipped with advanced AI features, the AI Code Editor is perfect for developers of all levels.
 

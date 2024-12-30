@@ -1,4 +1,4 @@
-# AI Code Editor
+# RunCompiler An Ai Code Compiler
 
 An intelligent coding platform designed to streamline development and enhance productivity. Equipped with advanced AI features, the AI Code Editor is perfect for developers of all levels.
 
@@ -15,6 +15,8 @@ An intelligent coding platform designed to streamline development and enhance pr
 - **Code Execution**: Run your code directly within the editor.
 - **User Login**: Securely log in to save and manage your projects.
 - **Multiple Language Support**: Write and run code in various programming languages.
+- **File Upload**: Enable users to upload files directly to the editor.
+- **Save File**: Allow users to save their work within the editor.
 
 ### Responsive Design
 - Fully optimized for desktops, tablets, and mobile devices for coding anytime, anywhere.
@@ -62,6 +64,7 @@ An intelligent coding platform designed to streamline development and enhance pr
 - **Customize Themes**: Adjust the editor's appearance to your preference.
 - **Run Code**: Test and debug your code directly in the editor.
 
+
 ## Contributing
 
 We welcome contributions! Follow these steps:
@@ -90,7 +93,6 @@ This project is licensed under the [MIT License](LICENSE).
 - **Select AI Model**: Allow users to choose the AI model for code completion.
 - **Pro Plan**: Enable access to ChatGPT-4 for premium users.
 - **Light and Dark Modes**: Offer customizable light and dark theme options.
-- **File Upload**: Enable users to upload files directly to the editor.
-- **Save File**: Allow users to save their work within the editor.
+
 
 For any questions or feedback, feel free to open an issue or contact us at chintamanipala67@gmail.com.

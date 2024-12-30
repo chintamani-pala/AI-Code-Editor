@@ -26,6 +26,24 @@ function EditorPanel() {
 
   const mounted = useMounted();
 
+  useEffect(() => {
+    if (editor) {
+      monacoInstance.editor.addEditorAction({
+        id: "Clear-editor-code",
+        label: "Clear Code",
+        contextMenuGroupId: "navigation",
+        keybindings: [
+          monacoInstance.KeyMod.CtrlCmd |
+            monacoInstance.KeyMod.Shift |
+            monacoInstance.KeyCode.Delete,
+        ],
+        run: () => {
+          editor.setValue("");
+        },
+      });
+    }
+  }, [editor, monacoInstance]);
+
   // Load saved code when language changes
   useEffect(() => {
     const savedCode = localStorage.getItem(`editor-code-${language}`);
@@ -43,7 +61,6 @@ function EditorPanel() {
         });
         // setCompletionInstance(completion);
 
-        // Store the completion provider in state
         setCompletionProvider(completion);
 
         // Bind Ctrl+Space to trigger on-demand completion

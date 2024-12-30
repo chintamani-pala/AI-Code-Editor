@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Ai Code Editor",
+  title: "RunCompiler",
   description: "Ai Code Editor created By chintamani pala",
 };
 

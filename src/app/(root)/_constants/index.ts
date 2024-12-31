@@ -356,7 +356,11 @@ export const defineMonacoThemes = (monaco: Monaco) => {
   });
 };
 
-export const LANGUAGE_EXTENSIONS_MAPPING = {
+interface LANGUAGE_EXTENSIONS {
+  [key: string]: string;
+}
+
+export const LANGUAGE_EXTENSIONS_MAPPING: LANGUAGE_EXTENSIONS = {
   javascript: "js",
   typescript: "ts",
   java: "java",

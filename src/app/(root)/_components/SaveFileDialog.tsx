@@ -1,15 +1,15 @@
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import { X } from "lucide-react";
 import CustomAlert from "../_constants/CustomeAlert";
 import { useCodeEditorStore } from "@/store/useCodeEditorStore";
 import { LANGUAGE_EXTENSIONS_MAPPING } from "../_constants";
 
-function SaveFileDialog({ onClose }) {
+function SaveFileDialog({ onClose }: { onClose: () => void }) {
   const [fileName, setFileName] = useState("");
   const [isSaving, setIsSaving] = useState(false);
   const { language, editor } = useCodeEditorStore();
 
-  const handleSave = async (e) => {
+  const handleSave = async (e: FormEvent<HTMLFormElement>) => {
     if (!fileName) {
       CustomAlert("error", "File Name Is Required");
       return;
@@ -55,7 +55,7 @@ function SaveFileDialog({ onClose }) {
           </button>
         </div>
 
-        <form onSubmit={handleSave}>
+        <form onSubmit={(e) => handleSave(e)}>
           <div className="mb-4">
             <label
               htmlFor="fileName"

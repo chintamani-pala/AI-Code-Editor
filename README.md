@@ -17,6 +17,7 @@ An intelligent coding platform designed to streamline development and enhance pr
 - **Multiple Language Support**: Write and run code in various programming languages.
 - **File Upload**: Enable users to upload files directly to the editor.
 - **Save File**: Allow users to save their work within the editor.
+- **Runtime Input**: Allow users to send runtime inputs in the console.
 
 ### Responsive Design
 - Fully optimized for desktops, tablets, and mobile devices for coding anytime, anywhere.

@@ -20,7 +20,9 @@ function EditorPanel() {
   const clerk = useClerk();
   const { language, theme, fontSize, editor, setFontSize, setEditor } =
     useCodeEditorStore();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [monacoInstance, setMonaco] = useState<any>(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [completionProvider, setCompletionProvider] = useState<any>(null);
 
   const mounted = useMounted();

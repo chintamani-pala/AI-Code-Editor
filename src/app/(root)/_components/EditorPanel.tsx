@@ -296,7 +296,7 @@ function EditorPanel() {
                 minimap: { enabled: false },
                 fontSize,
                 automaticLayout: true,
-                scrollBeyondLastLine: false,
+                scrollBeyondLastLine: true,
                 padding: { top: 16, bottom: 16 },
                 renderWhitespace: "selection",
                 fontFamily: '"Fira Code", "Cascadia Code", Consolas, monospace',

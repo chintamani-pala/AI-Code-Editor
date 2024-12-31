@@ -11,14 +11,13 @@ import { RotateCcwIcon, TypeIcon, WandSparkles } from "lucide-react";
 import { useClerk, useUser } from "@clerk/nextjs";
 import { EditorPanelSkeleton } from "./EditorPanelSkeleton";
 import useMounted from "../../../hooks/useMounted";
-import ShareSnippetDialog from "./ShareSnippetDialog";
 import OptionsEditor from "./OptionsEditor";
+import RunButton from "./RunButton";
 
 function EditorPanel() {
   const [isMobile, setIsMobile] = useState(false);
-  const { isSignedIn } = useUser();
+  const { isLoaded, isSignedIn } = useUser();
   const clerk = useClerk();
-  const [isShareDialogOpen, setIsShareDialogOpen] = useState(false);
   const { language, theme, fontSize, editor, setFontSize, setEditor } =
     useCodeEditorStore();
   const [monacoInstance, setMonaco] = useState<any>(null);
@@ -273,9 +272,11 @@ function EditorPanel() {
             )}
 
             {/* Share Button */}
-            <OptionsEditor
-              isSignedIn={isSignedIn == undefined ? false : true}
-            />
+            {isSignedIn ? (
+              <OptionsEditor isSignedIn={isLoaded && isSignedIn} />
+            ) : (
+              <RunButton />
+            )}
           </div>
         </div>
 
@@ -317,10 +318,6 @@ function EditorPanel() {
           {!clerk.loaded && <EditorPanelSkeleton />}
         </div>
       </div>
-
-      {isShareDialogOpen && (
-        <ShareSnippetDialog onClose={() => setIsShareDialogOpen(false)} />
-      )}
     </div>
   );
 }

@@ -38,17 +38,7 @@ console.log('Even numbers:', evenNumbers);
 const sum = numbers.reduce((acc, curr) => acc + curr, 0);
 console.log('Sum of numbers:', sum);`,
   },
-  typescript: {
-    isProReq: false,
-    id: "typescript",
-    label: "TypeScript",
-    logoPath: "/typescript.png",
-    pistonRuntime: { language: "typescript", version: "5.0.3" },
-    monacoLanguage: "typescript",
-    defaultCode: `// TypeScript Playground
-const message: string = "Hello, TypeScript!";
-console.log(message);`,
-  },
+
   java: {
     isProReq: false,
     id: "java",
@@ -72,6 +62,17 @@ public class Main {
     monacoLanguage: "python",
     defaultCode: `# Python Playground
 print("Hello, Python!")`,
+  },
+  typescript: {
+    isProReq: false,
+    id: "typescript",
+    label: "TypeScript",
+    logoPath: "/typescript.png",
+    pistonRuntime: { language: "typescript", version: "5.0.3" },
+    monacoLanguage: "typescript",
+    defaultCode: `// TypeScript Playground
+const message: string = "Hello, TypeScript!";
+console.log(message);`,
   },
   php: {
     isProReq: false,

@@ -1,7 +1,6 @@
 "use client";
 import { useUser } from "@clerk/nextjs";
 import { usePaginatedQuery, useQuery } from "convex/react";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { api } from "../../../convex/_generated/api";
 import NavigationHeader from "@/components/NavigationHeader";
@@ -20,6 +19,7 @@ import Image from "next/image";
 import Link from "next/link";
 import StarButton from "@/components/StarButton";
 import CodeBlock from "./_components/CodeBlock";
+import { redirect } from "next/navigation";
 
 const TABS = [
   {
@@ -36,7 +36,6 @@ const TABS = [
 
 function ProfilePage() {
   const { user, isLoaded } = useUser();
-  const router = useRouter();
   const [activeTab, setActiveTab] = useState<"executions" | "starred">(
     "executions"
   );
@@ -66,7 +65,7 @@ function ProfilePage() {
     if (executionStatus === "CanLoadMore") loadMore(5);
   };
 
-  if (!user && isLoaded) return router.push("/");
+  if (!user && isLoaded) return redirect("/");
 
   return (
     <div className="min-h-screen bg-[#0a0a0f]">

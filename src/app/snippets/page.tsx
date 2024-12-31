@@ -55,7 +55,7 @@ function SnippetsPage() {
              from-blue-500/10 to-purple-500/10 text-sm text-gray-400 mb-6"
           >
             <BookOpen className="w-4 h-4" />
-            Community Code Library
+            OpenSource Snippet Hub
           </motion.div>
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
@@ -63,7 +63,7 @@ function SnippetsPage() {
             transition={{ delay: 0.1 }}
             className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-gray-100 to-gray-300 text-transparent bg-clip-text mb-6"
           >
-            Discover & Share Code Snippets
+            Code Inspiration Hub: Share & Explore Snippets
           </motion.h1>
           <motion.p
             initial={{ opacity: 0 }}
@@ -71,7 +71,8 @@ function SnippetsPage() {
             transition={{ delay: 0.2 }}
             className="text-lg text-gray-400 mb-8"
           >
-            Explore a curated collection of code snippets from the community
+            Unleash creativity with curated code solutions from a vibrant
+            community.
           </motion.p>
         </div>
 

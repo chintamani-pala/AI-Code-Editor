@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import RunningCodeSkeleton from "./RunningCodeSkeleton";
+import StdInput from "./StdInput";
 
 function OutputPanel() {
   const { output, error, isRunning } = useCodeEditorStore();
@@ -33,7 +34,7 @@ function OutputPanel() {
           <div className="flex items-center justify-center w-6 h-6 rounded-lg bg-[#1e1e2e] ring-1 ring-gray-800/50">
             <Terminal className="w-4 h-4 text-blue-400" />
           </div>
-          <span className="text-sm font-medium text-gray-300">Output</span>
+          <span className="text-sm font-medium text-gray-300">Console</span>
         </div>
 
         {hasContent && (
@@ -61,7 +62,7 @@ function OutputPanel() {
       <div className="relative">
         <div
           className="relative bg-[#1e1e2e]/50 backdrop-blur-sm border border-[#313244] 
-        rounded-xl p-4 h-[600px] overflow-auto font-mono text-sm"
+        rounded-xl p-4 h-[300px] overflow-auto font-mono text-sm"
         >
           {isRunning ? (
             <RunningCodeSkeleton />
@@ -94,6 +95,8 @@ function OutputPanel() {
             </div>
           )}
         </div>
+
+        <StdInput />
       </div>
     </div>
   );

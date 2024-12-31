@@ -41,12 +41,14 @@ export interface CodeEditorState {
   language: string;
   output: string;
   isRunning: boolean;
+  stdInput: string;
   error: string | null;
   theme: string;
   fontSize: number;
   editor: Monaco | null;
   executionResult: ExecutionResult | null;
 
+  setStdInput: (input: string) => void;
   setEditor: (editor: Monaco) => void;
   getCode: () => string;
   setLanguage: (language: string) => void;

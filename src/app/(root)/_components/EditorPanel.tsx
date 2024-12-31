@@ -273,7 +273,9 @@ function EditorPanel() {
             )}
 
             {/* Share Button */}
-            <OptionsEditor isSignedIn={isSignedIn} />
+            <OptionsEditor
+              isSignedIn={isSignedIn == undefined ? false : true}
+            />
           </div>
         </div>
 

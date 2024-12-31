@@ -63,7 +63,7 @@ function SnippetsPage() {
             transition={{ delay: 0.1 }}
             className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-gray-100 to-gray-300 text-transparent bg-clip-text mb-6"
           >
-            Code Inspiration Hub: Share & Explore Snippets
+            Code Inspiration Hub Share & Explore Snippets
           </motion.h1>
           <motion.p
             initial={{ opacity: 0 }}

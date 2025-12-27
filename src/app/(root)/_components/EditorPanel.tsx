@@ -4,7 +4,7 @@ import { useCodeEditorStore } from "@/store/useCodeEditorStore";
 import { useEffect, useState } from "react";
 import { defineMonacoThemes, LANGUAGE_CONFIG } from "../_constants";
 import { Editor } from "@monaco-editor/react";
-import { registerCompletion } from "monacopilot";
+import { CompletionRequestBody, registerCompletion } from "monacopilot";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { RotateCcwIcon, TypeIcon, WandSparkles } from "lucide-react";
@@ -13,6 +13,7 @@ import { EditorPanelSkeleton } from "./EditorPanelSkeleton";
 import useMounted from "../../../hooks/useMounted";
 import OptionsEditor from "./OptionsEditor";
 import RunButton from "./RunButton";
+import { FetchCompletionItemReturn, MonacoInstance, CompletionProvider } from "./editor.types";
 
 function EditorPanel() {
   const [isMobile, setIsMobile] = useState(false);
@@ -20,10 +21,10 @@ function EditorPanel() {
   const clerk = useClerk();
   const { language, theme, fontSize, editor, setFontSize, setEditor } =
     useCodeEditorStore();
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const [monacoInstance, setMonaco] = useState<any>(null);
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const [completionProvider, setCompletionProvider] = useState<any>(null);
+
+  const [monacoInstance, setMonaco] = useState<MonacoInstance | null>(null);
+  const [completionProvider, setCompletionProvider] = useState<CompletionProvider | null>(null);
+  const { getLlmModelConfig } = useCodeEditorStore();
 
   const mounted = useMounted();
   useEffect(() => {
@@ -42,8 +43,8 @@ function EditorPanel() {
         contextMenuGroupId: "navigation",
         keybindings: [
           monacoInstance.KeyMod.CtrlCmd |
-            monacoInstance.KeyMod.Shift |
-            monacoInstance.KeyCode.Delete,
+          monacoInstance.KeyMod.Shift |
+          monacoInstance.KeyCode.Delete,
         ],
         run: () => {
           editor.setValue("");
@@ -52,6 +53,22 @@ function EditorPanel() {
     }
   }, [editor, monacoInstance]);
 
+  const handleAiRequest = async ({ body }: { body: CompletionRequestBody }): Promise<FetchCompletionItemReturn> => {
+    const response = await fetch(process.env.NEXT_PUBLIC_AI_CODE_API || "", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        ...body,
+        modelConfig: {
+          modelId: getLlmModelConfig()?._id,
+        },
+      }),
+    });
+    const data = await response.json();
+    return { completion: data.completion };
+  };
   // Load saved code when language changes
   useEffect(() => {
     const savedCode = localStorage.getItem(`editor-code-${language}`);
@@ -62,11 +79,11 @@ function EditorPanel() {
       if (isSignedIn && !completionProvider && !isMobile) {
         // Initialize the completion provider only if the user is signed in and it hasn't been initialized yet
         const completion = registerCompletion(monacoInstance, editor, {
-          endpoint: process.env.NEXT_PUBLIC_AI_CODE_API || "",
           language: LANGUAGE_CONFIG[language]?.monacoLanguage || "javascript",
           trigger: "onDemand",
           maxContextLines: 80,
-        });
+          requestHandler: handleAiRequest
+        })
         // setCompletionInstance(completion);
 
         setCompletionProvider(completion);
@@ -78,8 +95,8 @@ function EditorPanel() {
           contextMenuGroupId: "navigation",
           keybindings: [
             monacoInstance.KeyMod.CtrlCmd |
-              monacoInstance.KeyMod.Shift |
-              monacoInstance.KeyCode.Space,
+            monacoInstance.KeyMod.Shift |
+            monacoInstance.KeyCode.Space,
           ],
           run: () => {
             completion.trigger();
@@ -124,84 +141,90 @@ function EditorPanel() {
 
   // Initialize editor on mount
   const handleEditorMount = (
-    editorInstance: unknown,
-    monacoInstance: unknown
+    editorInstance: any,
+    monacoInstance: MonacoInstance
   ) => {
     setEditor(editorInstance); // Store editor instance for later use
     setMonaco(monacoInstance); // Store monaco instance
   };
 
-  // Handle AI Accept logic (insert AI code at cursor position)
-  const handleAiAccept = async () => {
-    const position = editor.getPosition();
+  // // Handle AI Accept logic (insert AI code at cursor position)
+  // const handleAiAccept = async () => {
+  //   const position = editor.getPosition();
 
-    // Get the model (text content) of the editor
-    const model = editor.getModel();
-    if (position && model) {
-      const lineNumber = position.lineNumber;
-      const column = position.column;
-      const totalLines = model.getLineCount();
+  //   // Get the model (text content) of the editor
+  //   const model = editor.getModel();
+  //   if (position && model) {
+  //     const lineNumber = position.lineNumber;
+  //     const column = position.column;
+  //     const totalLines = model.getLineCount();
 
-      // Get the text before the cursor
-      const textBeforeCursor = model.getValueInRange(
-        new monacoInstance.Range(1, 1, lineNumber, column)
-      );
+  //     // Get the text before the cursor
+  //     const textBeforeCursor = model.getValueInRange(
+  //       new monacoInstance.Range(1, 1, lineNumber, column)
+  //     );
 
-      // Get the text after the cursor (you can specify how many characters after you want to get)
-      const textAfterCursor = model.getValueInRange(
-        new monacoInstance.Range(lineNumber, column, totalLines, 1) // Adjust 50 to the length you want
-      );
+  //     // Get the text after the cursor (you can specify how many characters after you want to get)
+  //     const textAfterCursor = model.getValueInRange(
+  //       new monacoInstance.Range(lineNumber, column, totalLines, 1) // Adjust 50 to the length you want
+  //     );
 
-      try {
-        // Call the API endpoint to get AI-generated code
-        const response = await fetch(
-          process.env.NEXT_PUBLIC_AI_CODE_API || "",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              completionMetadata: {
-                language: language,
-                textBeforeCursor: textBeforeCursor,
-                textAfterCursor: textAfterCursor,
-                cursorPosition: { lineNumber, column },
-                editorState: { completionMode: "continue" },
-              },
-            }),
-          }
-        );
+  //     try {
+  //       // Call the API endpoint to get AI-generated code
+  //       const requestConfig = {
+  //         method: "POST",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //         body: JSON.stringify({
+  //           completionMetadata: {
+  //             language: language,
+  //             textBeforeCursor: textBeforeCursor,
+  //             textAfterCursor: textAfterCursor,
+  //             cursorPosition: { lineNumber, column },
+  //             editorState: { completionMode: "continue" },
+  //           },
+  //           modelConfig: {
+  //             modelName: "tngtech/deepseek-r1t2-chimera",
+  //             modelProvider: "free",
+  //           },
+  //         }),
+  //       }
+  //       console.log(requestConfig)
+  //       const response = await fetch(
+  //         process.env.NEXT_PUBLIC_AI_CODE_API || "",
+  //         requestConfig
+  //       );
 
-        if (!response.ok) {
-          throw new Error("Failed to fetch AI code");
-        }
+  //       if (!response.ok) {
+  //         throw new Error("Failed to fetch AI code");
+  //       }
 
-        const data = await response.json();
-        const formattedCode = data.completion.trim().replace(/^```|```$/g, "");
-        const generatedCode = formattedCode || "";
+  //       const data = await response.json();
+  //       const formattedCode = data.completion.trim().replace(/^```|```$/g, "");
+  //       const generatedCode = formattedCode || "";
 
-        // Create a range for where to insert the AI code (at the cursor position)
-        const range = new monacoInstance.Range(
-          lineNumber,
-          column,
-          lineNumber,
-          column
-        );
+  //       // Create a range for where to insert the AI code (at the cursor position)
+  //       const range = new monacoInstance.Range(
+  //         lineNumber,
+  //         column,
+  //         lineNumber,
+  //         column
+  //       );
 
-        // Apply the AI-generated code at the cursor position
-        const editOperation = {
-          range: range,
-          text: generatedCode,
-        };
+  //       // Apply the AI-generated code at the cursor position
+  //       const editOperation = {
+  //         range: range,
+  //         text: generatedCode,
+  //       };
 
-        // Execute the editor operation to insert AI-generated code
-        model.pushEditOperations([], [editOperation], () => null);
-      } catch (error) {
-        console.error("Error fetching AI code:", error);
-      }
-    }
-  };
+  //       // Execute the editor operation to insert AI-generated code
+  //       model.pushEditOperations([], [editOperation], () => null);
+  //     } catch (error) {
+  //       console.error("Error fetching AI code:", error);
+  //     }
+  //   }
+  // };
 
   if (!mounted) return null;
 
@@ -261,7 +284,7 @@ function EditorPanel() {
             </motion.button>
 
             {/* ai accept Button */}
-            {isSignedIn && (
+            {/* {isSignedIn && (
               <motion.button
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.95 }}
@@ -271,7 +294,7 @@ function EditorPanel() {
               >
                 <WandSparkles className="size-4 text-gray-400" />
               </motion.button>
-            )}
+            )} */}
 
             {/* Share Button */}
             {isSignedIn ? (

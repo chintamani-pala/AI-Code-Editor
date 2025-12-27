@@ -9,6 +9,7 @@ import LanguageSelector from "./LanguageSelector";
 import RunButton from "./RunButton";
 import HeaderProfileBtn from "./HeaderProfileBtn";
 import { SignedIn } from "@clerk/nextjs";
+import ModelSelector from "./ModelSelector";
 
 async function Header() {
   const convex = new ConvexHttpClient(process.env.NEXT_PUBLIC_CONVEX_URL!);
@@ -75,6 +76,7 @@ async function Header() {
 
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-3">
+            <ModelSelector />
             <ThemeSelector />
             <LanguageSelector hasAccess={Boolean(convexUser?.isPro)} />
           </div>

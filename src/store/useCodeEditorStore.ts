@@ -2,6 +2,7 @@ import { CodeEditorState } from "./../types/index";
 import { LANGUAGE_CONFIG } from "../app/(root)/_constants";
 import { create } from "zustand";
 import { Monaco } from "@monaco-editor/react";
+import { LlmModelConfig } from "@/app/(root)/_components/editor.types";
 
 const getInitialState = () => {
   // if we're on the server, return default values
@@ -22,8 +23,10 @@ const getInitialState = () => {
     language: savedLanguage,
     theme: savedTheme,
     fontSize: Number(savedFontSize),
+    llmModelConfig: undefined
   };
 };
+
 
 export const useCodeEditorStore = create<CodeEditorState>((set, get) => {
   const initialState = getInitialState();
@@ -36,6 +39,9 @@ export const useCodeEditorStore = create<CodeEditorState>((set, get) => {
     editor: null,
     executionResult: null,
     stdInput: "",
+
+    setLlmModelConfig: (model: LlmModelConfig) => set({ llmModelConfig: model }),
+    getLlmModelConfig: () => get()?.llmModelConfig,
 
     setStdInput: (input: string) => set({ stdInput: input }),
 

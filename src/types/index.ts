@@ -1,5 +1,6 @@
 import { Monaco } from "@monaco-editor/react";
 import { Id } from "../../convex/_generated/dataModel";
+import { LlmModelConfig } from "@/app/(root)/_components/editor.types";
 
 export interface Theme {
   id: string;
@@ -37,6 +38,7 @@ export interface ExecutionResult {
   error: string | null;
 }
 
+
 export interface CodeEditorState {
   language: string;
   output: string;
@@ -47,6 +49,11 @@ export interface CodeEditorState {
   fontSize: number;
   editor: Monaco | null;
   executionResult: ExecutionResult | null;
+  llmModelConfig?: LlmModelConfig
+
+
+  setLlmModelConfig: (model: LlmModelConfig) => void
+  getLlmModelConfig: () => LlmModelConfig | undefined
 
   setStdInput: (input: string) => void;
   setEditor: (editor: Monaco) => void;

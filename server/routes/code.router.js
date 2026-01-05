@@ -12,7 +12,11 @@ router.post("/", async (req, res) => {
         const { completionMetadata, modelConfig } = req.body;
         const { textBeforeCursor, textAfterCursor, language } = completionMetadata;
         const { modelId } = modelConfig
-
+        if (!modelId) {
+            return res.status(400).json({
+                error: "Model ID is required"
+            });
+        }
         const llmModel = await convex.query(api.llmProviders.getLlmModelById, { modelId });
 
         if (!llmModel) {

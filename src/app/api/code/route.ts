@@ -11,6 +11,11 @@ export async function POST(req: Request) {
         const { completionMetadata, modelConfig } = body;
         const { textBeforeCursor, textAfterCursor, language } = completionMetadata;
         const { modelId } = modelConfig
+        if (!modelId) {
+            return NextResponse.json({
+                error: "Model ID is required"
+            }, { status: 400 });
+        }
         const llmModel = await convex.query(api.llmProviders.getLlmModelById, { modelId });
         if (!llmModel) {
             return NextResponse.json({

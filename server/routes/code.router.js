@@ -1,6 +1,6 @@
 import express from "express";
 import { ConvexHttpClient } from "convex/browser";
-import { api } from "../../convex/_generated/api.js";
+import { api } from "../convex/_generated/api.js";
 import { getLlmModelInstance, llmAnswerMap } from "../services/modelMap.js";
 import { generatePrompt } from "../services/prompt.js";
 
